@@ -1,0 +1,16 @@
+{
+	"Listen": ":https",
+	"HttpsRedirectorListen": ":http",
+	"Routes": {
+		"accounts.adteria.com": {
+			"Host": "localhost:8180",
+			"CertFile": "/etc/letsencrypt/live/accounts.adteria.com/cert.pem",
+			"KeyFile": "/etc/letsencrypt/live/accounts.adteria.com/privkey.pem"
+		},
+		"engage.adteria.com": {
+			"Host": "localhost:8080",
+			"CertFile": "/etc/letsencrypt/live/accounts.adteria.com/cert.pem",
+			"KeyFile": "/etc/letsencrypt/live/accounts.adteria.com/privkey.pem"
+		}
+	}
+}
