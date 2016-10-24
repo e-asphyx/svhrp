@@ -49,6 +49,7 @@ func main() {
 	// Redirect to https
 	go http.ListenAndServe(conf.HttpsRedirectorListen, http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		url := *req.URL
+		url.Host = req.Host
 		url.Scheme = "https"
 		http.Redirect(w, req, url.String(), http.StatusMovedPermanently)
 	}))
