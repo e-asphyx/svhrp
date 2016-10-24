@@ -17,6 +17,7 @@ type Config struct {
 	Listen                string
 	HttpsRedirectorListen string
 	Routes                map[string]Route
+	DefaultHost           string
 }
 
 func NewConfig(path string) (*Config, error) {

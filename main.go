@@ -40,7 +40,7 @@ func main() {
 
 	server := http.Server{
 		Addr:      conf.Listen,
-		Handler:   NewProxy(conf.Routes),
+		Handler:   NewProxy(conf.Routes, conf.DefaultHost),
 		TLSConfig: &tlsConfig,
 	}
 
