@@ -28,6 +28,7 @@ func NewProxy(routes map[string]Route, defaultRoute string) *httputil.ReversePro
 	defUrl, _ := url.Parse(defaultRoute)
 
 	director := func(req *http.Request) {
+		log.Printf("%s %s\n", req.Method, req.URL.String())
 		route, ok := routes[req.URL.Host]
 		if !ok {
 			req.URL.Host = defUrl.Host

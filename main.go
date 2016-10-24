@@ -18,7 +18,9 @@ func main() {
 
 	tlsConfig := tls.Config{}
 	// Load certs
-	for _, route := range conf.Routes {
+	for host, route := range conf.Routes {
+		log.Printf("Route %s -> %s\n", host, route.Host)
+
 		var (
 			cert tls.Certificate
 			err  error
