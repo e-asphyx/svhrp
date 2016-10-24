@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
-	"net/url"
 	"sync"
 )
 
@@ -25,25 +24,16 @@ var bufferPool = BufferPool{
 }
 
 func NewProxy(routes map[string]Route, defaultRoute string) *httputil.ReverseProxy {
-	defUrl, _ := url.Parse(defaultRoute)
-
 	director := func(req *http.Request) {
-		log.Printf("%s %s\n", req.Method, req.URL.String())
-		route, ok := routes[req.URL.Host]
+		log.Printf("%s %s%s\n", req.Method, req.Host, req.URL.String())
+
+		route, ok := routes[req.Host]
 		if !ok {
-			req.URL.Host = defUrl.Host
-			req.URL.Scheme = defUrl.Scheme
+			req.Host = defaultRoute
 			return
 		}
 
-		u, err := url.Parse(route.Host)
-		if err != nil {
-			log.Println(err)
-			return
-		}
-
-		req.URL.Host = u.Host
-		req.URL.Scheme = u.Scheme
+		req.Host = route.Host
 	}
 
 	return &httputil.ReverseProxy{
