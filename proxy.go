@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -29,6 +30,13 @@ func NewProxy(routes map[string]Route, defaultRoute string) *httputil.ReversePro
 
 	director := func(req *http.Request) {
 		log.Printf("%s %s%s\n", req.Method, req.Host, req.URL.String())
+
+		addrStr, _, _ := net.SplitHostPort(req.RemoteAddr)
+		ip := net.ParseIP(addrStr)
+
+		req.Header.Set("Forwarded", "for="+ip.String())
+		req.Header.Set("X-Forwarded-For", ip.String())
+
 		route, ok := routes[req.Host]
 		if !ok {
 			req.URL.Host = defUrl.Host
